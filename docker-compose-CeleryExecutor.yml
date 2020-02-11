@@ -55,7 +55,7 @@ services:
         command: flower
 
     scheduler:
-        image: puckel/docker-airflow:1.10.8
+        image: puckel/docker-airflow:latest
         restart: always
         depends_on:
             - webserver
