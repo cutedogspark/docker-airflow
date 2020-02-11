@@ -3,6 +3,9 @@ services:
     redis:
         image: 'redis:5.0.5'
         # command: redis-server --requirepass redispass
+        volumes:
+            - ${DATA_PATH_HOST}/redis/data:/data
+
 
     postgres:
         image: postgres:9.6
@@ -10,6 +13,8 @@ services:
             - POSTGRES_USER=${POSTGRES_USER}
             - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
             - POSTGRES_DB=${POSTGRES_DB}
+        volumes:
+            - ${DATA_PATH_HOST}/postgres:/var/lib/postgresql/data
         # Uncomment these lines to persist data on the local filesystem.
         #     - PGDATA=/var/lib/postgresql/data/pgdata
         # volumes:
@@ -30,9 +35,9 @@ services:
             - POSTGRES_DB=${POSTGRES_DB}
             # - REDIS_PASSWORD=redispass
         volumes:
-            - ./dags:/usr/local/airflow/dags
-            # Uncomment to include custom plugins
-            # - ./plugins:/usr/local/airflow/plugins
+            - ${DATA_PATH_HOST}/airflow/dags:/usr/local/airflow/dags
+            - ${DATA_PATH_HOST}/airflow/data:/usr/local/airflow/data
+            - ${DATA_PATH_HOST}/airflow/plugins:/usr/local/airflow/plugins
         ports:
             - "8080:8080"
         command: webserver
@@ -60,9 +65,9 @@ services:
         depends_on:
             - webserver
         volumes:
-            - ./dags:/usr/local/airflow/dags
-            # Uncomment to include custom plugins
-            # - ./plugins:/usr/local/airflow/plugins
+            - ${DATA_PATH_HOST}/airflow/dags:/usr/local/airflow/dags
+            - ${DATA_PATH_HOST}/airflow/data:/usr/local/airflow/data
+            - ${DATA_PATH_HOST}/airflow/plugins:/usr/local/airflow/plugins
         environment:
             - LOAD_EX=${LOAD_EX}
             - FERNET_KEY=${FERNET_KEY}
@@ -79,9 +84,9 @@ services:
         depends_on:
             - scheduler
         volumes:
-            - ./dags:/usr/local/airflow/dags
-            # Uncomment to include custom plugins
-            # - ./plugins:/usr/local/airflow/plugins
+            - ${DATA_PATH_HOST}/airflow/dags:/usr/local/airflow/dags
+            - ${DATA_PATH_HOST}/airflow/data:/usr/local/airflow/data
+            - ${DATA_PATH_HOST}/airflow/plugins:/usr/local/airflow/plugins
         environment:
             - FERNET_KEY=${FERNET_KEY}
             - EXECUTOR=Celery
