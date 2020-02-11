@@ -7,9 +7,9 @@ services:
     postgres:
         image: postgres:9.6
         environment:
-            - POSTGRES_USER=airflow
-            - POSTGRES_PASSWORD=airflow
-            - POSTGRES_DB=airflow
+            - POSTGRES_USER=${POSTGRES_USER}
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+            - POSTGRES_DB=${POSTGRES_DB}
         # Uncomment these lines to persist data on the local filesystem.
         #     - PGDATA=/var/lib/postgresql/data/pgdata
         # volumes:
@@ -22,12 +22,12 @@ services:
             - postgres
             - redis
         environment:
-            - LOAD_EX=n
-            - FERNET_KEY=46BKJoQYlPPOexq0OhDZnIlNepKFf87WFwLbfzqDDho=
+            - LOAD_EX=${LOAD_EX}
+            - FERNET_KEY=${FERNET_KEY}
             - EXECUTOR=Celery
-            # - POSTGRES_USER=airflow
-            # - POSTGRES_PASSWORD=airflow
-            # - POSTGRES_DB=airflow
+            - POSTGRES_USER=${POSTGRES_USER}
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+            - POSTGRES_DB=${POSTGRES_DB}
             # - REDIS_PASSWORD=redispass
         volumes:
             - ./dags:/usr/local/airflow/dags
@@ -64,12 +64,12 @@ services:
             # Uncomment to include custom plugins
             # - ./plugins:/usr/local/airflow/plugins
         environment:
-            - LOAD_EX=n
-            - FERNET_KEY=46BKJoQYlPPOexq0OhDZnIlNepKFf87WFwLbfzqDDho=
+            - LOAD_EX=${LOAD_EX}
+            - FERNET_KEY=${FERNET_KEY}
             - EXECUTOR=Celery
-            # - POSTGRES_USER=airflow
-            # - POSTGRES_PASSWORD=airflow
-            # - POSTGRES_DB=airflow
+            - POSTGRES_USER=${POSTGRES_USER}
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+            - POSTGRES_DB=${POSTGRES_DB}
             # - REDIS_PASSWORD=redispass
         command: scheduler
 
@@ -83,10 +83,10 @@ services:
             # Uncomment to include custom plugins
             # - ./plugins:/usr/local/airflow/plugins
         environment:
-            - FERNET_KEY=46BKJoQYlPPOexq0OhDZnIlNepKFf87WFwLbfzqDDho=
+            - FERNET_KEY=${FERNET_KEY}
             - EXECUTOR=Celery
-            # - POSTGRES_USER=airflow
-            # - POSTGRES_PASSWORD=airflow
-            # - POSTGRES_DB=airflow
+            - POSTGRES_USER=${POSTGRES_USER}
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+            - POSTGRES_DB=${POSTGRES_DB}
             # - REDIS_PASSWORD=redispass
         command: worker
